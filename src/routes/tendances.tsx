@@ -42,7 +42,7 @@ function Trends() {
     return Object.fromEntries(
       trends.map((t) => [
         t.topic.id,
-        timeSeries(current.filter((a) => a.topic_ids.includes(t.topic.id)), range, g).map((r) => ({ v: r.total as number })),
+        timeSeries(current.filter((a) => a.topic_ids.includes(t.topic.id)), range, g).map((r) => ({ v: r["total"] as number })),
       ]),
     );
   }, [trends, current, range]);
