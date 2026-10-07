@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ExplorerRouteImport } from './routes/explorer'
+import { Route as TendancesRouteImport } from './routes/tendances'
+import { Route as ArticlesIdRouteImport } from './routes/articles.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExplorerRoute = ExplorerRouteImport.update({
+  id: '/explorer',
+  path: '/explorer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TendancesRoute = TendancesRouteImport.update({
+  id: '/tendances',
+  path: '/tendances',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesIdRoute = ArticlesIdRouteImport.update({
+  id: '/articles/$id',
+  path: '/articles/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/explorer': typeof ExplorerRoute
+  '/tendances': typeof TendancesRoute
+  '/articles/$id': typeof ArticlesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/explorer': typeof ExplorerRoute
+  '/tendances': typeof TendancesRoute
+  '/articles/$id': typeof ArticlesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/explorer': typeof ExplorerRoute
+  '/tendances': typeof TendancesRoute
+  '/articles/$id': typeof ArticlesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/explorer' | '/tendances' | '/articles/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/explorer' | '/tendances' | '/articles/$id'
+  id: '__root__' | '/' | '/explorer' | '/tendances' | '/articles/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExplorerRoute: typeof ExplorerRoute
+  TendancesRoute: typeof TendancesRoute
+  ArticlesIdRoute: typeof ArticlesIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/explorer': {
+      id: '/explorer'
+      path: '/explorer'
+      fullPath: '/explorer'
+      preLoaderRoute: typeof ExplorerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tendances': {
+      id: '/tendances'
+      path: '/tendances'
+      fullPath: '/tendances'
+      preLoaderRoute: typeof TendancesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles/$id': {
+      id: '/articles/$id'
+      path: '/articles/$id'
+      fullPath: '/articles/$id'
+      preLoaderRoute: typeof ArticlesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExplorerRoute: ExplorerRoute,
+  TendancesRoute: TendancesRoute,
+  ArticlesIdRoute: ArticlesIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
