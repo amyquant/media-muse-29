@@ -11,7 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ExplorerRouteImport } from './routes/explorer'
+import { Route as ParametresRouteImport } from './routes/parametres'
+import { Route as RapportsRouteImport } from './routes/rapports'
+import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TendancesRouteImport } from './routes/tendances'
+import { Route as VeillesRouteImport } from './routes/veilles'
 import { Route as ArticlesIdRouteImport } from './routes/articles.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -24,9 +28,29 @@ const ExplorerRoute = ExplorerRouteImport.update({
   path: '/explorer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ParametresRoute = ParametresRouteImport.update({
+  id: '/parametres',
+  path: '/parametres',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RapportsRoute = RapportsRouteImport.update({
+  id: '/rapports',
+  path: '/rapports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SourcesRoute = SourcesRouteImport.update({
+  id: '/sources',
+  path: '/sources',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TendancesRoute = TendancesRouteImport.update({
   id: '/tendances',
   path: '/tendances',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VeillesRoute = VeillesRouteImport.update({
+  id: '/veilles',
+  path: '/veilles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArticlesIdRoute = ArticlesIdRouteImport.update({
@@ -38,34 +62,75 @@ const ArticlesIdRoute = ArticlesIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/explorer': typeof ExplorerRoute
+  '/parametres': typeof ParametresRoute
+  '/rapports': typeof RapportsRoute
+  '/sources': typeof SourcesRoute
   '/tendances': typeof TendancesRoute
+  '/veilles': typeof VeillesRoute
   '/articles/$id': typeof ArticlesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/explorer': typeof ExplorerRoute
+  '/parametres': typeof ParametresRoute
+  '/rapports': typeof RapportsRoute
+  '/sources': typeof SourcesRoute
   '/tendances': typeof TendancesRoute
+  '/veilles': typeof VeillesRoute
   '/articles/$id': typeof ArticlesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/explorer': typeof ExplorerRoute
+  '/parametres': typeof ParametresRoute
+  '/rapports': typeof RapportsRoute
+  '/sources': typeof SourcesRoute
   '/tendances': typeof TendancesRoute
+  '/veilles': typeof VeillesRoute
   '/articles/$id': typeof ArticlesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/explorer' | '/tendances' | '/articles/$id'
+  fullPaths:
+    | '/'
+    | '/explorer'
+    | '/parametres'
+    | '/rapports'
+    | '/sources'
+    | '/tendances'
+    | '/veilles'
+    | '/articles/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/explorer' | '/tendances' | '/articles/$id'
-  id: '__root__' | '/' | '/explorer' | '/tendances' | '/articles/$id'
+  to:
+    | '/'
+    | '/explorer'
+    | '/parametres'
+    | '/rapports'
+    | '/sources'
+    | '/tendances'
+    | '/veilles'
+    | '/articles/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/explorer'
+    | '/parametres'
+    | '/rapports'
+    | '/sources'
+    | '/tendances'
+    | '/veilles'
+    | '/articles/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ExplorerRoute: typeof ExplorerRoute
+  ParametresRoute: typeof ParametresRoute
+  RapportsRoute: typeof RapportsRoute
+  SourcesRoute: typeof SourcesRoute
   TendancesRoute: typeof TendancesRoute
+  VeillesRoute: typeof VeillesRoute
   ArticlesIdRoute: typeof ArticlesIdRoute
 }
 
@@ -85,11 +150,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExplorerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/parametres': {
+      id: '/parametres'
+      path: '/parametres'
+      fullPath: '/parametres'
+      preLoaderRoute: typeof ParametresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rapports': {
+      id: '/rapports'
+      path: '/rapports'
+      fullPath: '/rapports'
+      preLoaderRoute: typeof RapportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sources': {
+      id: '/sources'
+      path: '/sources'
+      fullPath: '/sources'
+      preLoaderRoute: typeof SourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tendances': {
       id: '/tendances'
       path: '/tendances'
       fullPath: '/tendances'
       preLoaderRoute: typeof TendancesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/veilles': {
+      id: '/veilles'
+      path: '/veilles'
+      fullPath: '/veilles'
+      preLoaderRoute: typeof VeillesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/articles/$id': {
@@ -105,7 +198,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ExplorerRoute: ExplorerRoute,
+  ParametresRoute: ParametresRoute,
+  RapportsRoute: RapportsRoute,
+  SourcesRoute: SourcesRoute,
   TendancesRoute: TendancesRoute,
+  VeillesRoute: VeillesRoute,
   ArticlesIdRoute: ArticlesIdRoute,
 }
 export const routeTree = rootRouteImport
