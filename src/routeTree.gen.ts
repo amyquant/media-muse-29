@@ -17,6 +17,8 @@ import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TendancesRouteImport } from './routes/tendances'
 import { Route as VeillesRouteImport } from './routes/veilles'
 import { Route as ArticlesIdRouteImport } from './routes/articles.$id'
+import { Route as RapportsIndexRouteImport } from './routes/rapports.index'
+import { Route as RapportsIdRouteImport } from './routes/rapports.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,37 +60,52 @@ const ArticlesIdRoute = ArticlesIdRouteImport.update({
   path: '/articles/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RapportsIndexRoute = RapportsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RapportsRoute,
+} as any)
+const RapportsIdRoute = RapportsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => RapportsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/explorer': typeof ExplorerRoute
   '/parametres': typeof ParametresRoute
-  '/rapports': typeof RapportsRoute
+  '/rapports': typeof RapportsRouteWithChildren
   '/sources': typeof SourcesRoute
   '/tendances': typeof TendancesRoute
   '/veilles': typeof VeillesRoute
   '/articles/$id': typeof ArticlesIdRoute
+  '/rapports/$id': typeof RapportsIdRoute
+  '/rapports/': typeof RapportsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/explorer': typeof ExplorerRoute
   '/parametres': typeof ParametresRoute
-  '/rapports': typeof RapportsRoute
   '/sources': typeof SourcesRoute
   '/tendances': typeof TendancesRoute
   '/veilles': typeof VeillesRoute
   '/articles/$id': typeof ArticlesIdRoute
+  '/rapports/$id': typeof RapportsIdRoute
+  '/rapports': typeof RapportsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/explorer': typeof ExplorerRoute
   '/parametres': typeof ParametresRoute
-  '/rapports': typeof RapportsRoute
+  '/rapports': typeof RapportsRouteWithChildren
   '/sources': typeof SourcesRoute
   '/tendances': typeof TendancesRoute
   '/veilles': typeof VeillesRoute
   '/articles/$id': typeof ArticlesIdRoute
+  '/rapports/$id': typeof RapportsIdRoute
+  '/rapports/': typeof RapportsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,16 +118,19 @@ export interface FileRouteTypes {
     | '/tendances'
     | '/veilles'
     | '/articles/$id'
+    | '/rapports/$id'
+    | '/rapports/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/explorer'
     | '/parametres'
-    | '/rapports'
     | '/sources'
     | '/tendances'
     | '/veilles'
     | '/articles/$id'
+    | '/rapports/$id'
+    | '/rapports'
   id:
     | '__root__'
     | '/'
@@ -121,13 +141,15 @@ export interface FileRouteTypes {
     | '/tendances'
     | '/veilles'
     | '/articles/$id'
+    | '/rapports/$id'
+    | '/rapports/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ExplorerRoute: typeof ExplorerRoute
   ParametresRoute: typeof ParametresRoute
-  RapportsRoute: typeof RapportsRoute
+  RapportsRoute: typeof RapportsRouteWithChildren
   SourcesRoute: typeof SourcesRoute
   TendancesRoute: typeof TendancesRoute
   VeillesRoute: typeof VeillesRoute
@@ -192,14 +214,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticlesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rapports/': {
+      id: '/rapports/'
+      path: '/'
+      fullPath: '/rapports/'
+      preLoaderRoute: typeof RapportsIndexRouteImport
+      parentRoute: typeof RapportsRoute
+    }
+    '/rapports/$id': {
+      id: '/rapports/$id'
+      path: '/$id'
+      fullPath: '/rapports/$id'
+      preLoaderRoute: typeof RapportsIdRouteImport
+      parentRoute: typeof RapportsRoute
+    }
   }
 }
+
+interface RapportsRouteChildren {
+  RapportsIdRoute: typeof RapportsIdRoute
+  RapportsIndexRoute: typeof RapportsIndexRoute
+}
+
+const RapportsRouteChildren: RapportsRouteChildren = {
+  RapportsIdRoute: RapportsIdRoute,
+  RapportsIndexRoute: RapportsIndexRoute,
+}
+
+const RapportsRouteWithChildren = RapportsRoute._addFileChildren(
+  RapportsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ExplorerRoute: ExplorerRoute,
   ParametresRoute: ParametresRoute,
-  RapportsRoute: RapportsRoute,
+  RapportsRoute: RapportsRouteWithChildren,
   SourcesRoute: SourcesRoute,
   TendancesRoute: TendancesRoute,
   VeillesRoute: VeillesRoute,
