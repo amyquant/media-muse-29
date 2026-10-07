@@ -147,7 +147,7 @@ export function timeSeries(articles: Article[], r: { from: Date; to: Date }, g: 
     const k = bucketStart(new Date(a.published_at), g).getTime();
     const row = buckets.get(k);
     if (!row) continue;
-    row.total = (row.total as number) + 1;
+    row["total"] = (row["total"] as number) + 1;
     row[a.text_type] = ((row[a.text_type] as number) ?? 0) + 1;
   }
   return [...buckets.values()];

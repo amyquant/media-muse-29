@@ -64,7 +64,7 @@ const TYPE_TONE: Record<string, string> = {
 
 export function TypeBadge({ type }: { type: string }) {
   return (
-    <span className={cn("inline-flex items-center rounded px-1.5 py-0.5 text-[11px] font-medium", TYPE_TONE[type] ?? TYPE_TONE.Autre)}>
+    <span className={cn("inline-flex items-center rounded px-1.5 py-0.5 text-[11px] font-medium", TYPE_TONE[type] ?? TYPE_TONE["Autre"])}>
       {type}
     </span>
   );
