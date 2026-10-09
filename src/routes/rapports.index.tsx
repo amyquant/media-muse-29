@@ -53,7 +53,7 @@ function Reports() {
 
   const create = useMutation({
     mutationFn: async (f: Form) => {
-      const r = getRange({ preset: f.preset, customFrom: f.from || undefined, customTo: f.to || undefined });
+      const r = getRange({ preset: f.preset, ...(f.from ? { customFrom: f.from } : {}), ...(f.to ? { customTo: f.to } : {}) });
       const [kind, id] = f.scope.split(":");
       const { data, error } = await supabase
         .from("reports")
@@ -61,8 +61,8 @@ function Reports() {
           title: f.title.trim() || "Rapport d'analyse",
           period_start: r.from.toISOString(),
           period_end: r.to.toISOString(),
-          watchlist_id: kind === "w" ? id : null,
-          topic_id: kind === "t" ? id : null,
+          watchlist_id: kind === "w" && id ? id : null,
+          topic_id: kind === "t" && id ? id : null,
           filters: { sourceIds: f.sourceIds, types: f.types, language: f.language },
         })
         .select("id")
